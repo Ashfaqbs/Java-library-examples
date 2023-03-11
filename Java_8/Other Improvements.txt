@@ -1,0 +1,37 @@
+Collection API Improvements
+The Collection API in Java 8 now includes the following new methods. A few of them are listed below.  
+
+This is a default method for the Iterator. forEachRemaining (Consumer action): This is a default method for the Iterator. It repeats the “action” for the remaining items until all of them have been processed, or the “action” throws an exception.
+The default technique for removing items from a collection is removed (Predicate filter). This removes all objects from the collection that satisfy the supplied “filter.”
+Spliterator () This collection method returns a spliterator object that may be used to traverse the items sequentially or in parallel.
+ReplaceAll (), calculate(), and merge() are methods in the Map collection.
+The performance of the HashMap class with Key collisions has been enhanced etc.
+Java IO Improvements
+The following are some of the IO enhancements made in Java 8:
+
+Files.list (Path dir): Returns a lazily filled stream, each element of which represents a directory entry.
+Files.lines (Path path): Reads all the lines from a stream.
+Files.find (): Returns a stream filled by a path after searching for files in the file tree rooted at a provided beginning file and many more. 
+BufferedReader.lines (): Returns a stream containing all of the elements of BufferedReader’s lines and much more
+Buffered
+
+Miscellaneous Core API Improvements
+ ThreadLocal’s static function with initial (Supplier supplier) allows you to build an instance quickly.
+The default and static methods for natural ordering, reverse order, and other operations have been added to the “Comparator” interface.
+The min (), max (), and sum () methods are available in the Integer, Long, and Double wrapper classes.
+The logicalAnd (), logicalOr (), and logicalXor () methods have been added to the Boolean class.
+The Math class introduces a number of useful techniques.
+The JDBC-ODBC Bridge has been deactivated.
+The memory space used by PermGen is no longer available.
+
+
+Base64 Encode Decode 
+For Base64 encoding, Java 8 has built-in encode and decode functions. The Base64 encoding class in Java.util.Base64.
+
+Three Base64 encoders and decoders are provided in this class:
+
+The output is mapped to a set of characters between A-Za-z0-9+/ in this version. The encoder does not add a line feed to the output, and the decoder rejects any character other than the above.
+The filename safe is mapped to the set of characters between A-Za-z0-9+/, and the output is the URL.
+The output of this sort of encoder is mapped to a MIME-friendly format.
+Conclusion
+As we can see, Java 8 offers a number of important features. Other programming languages, such as Scala, have inspired some of the features. Java must improve in order to avoid becoming outdated, and although certain features are rudimentary in comparison to other programming languages.
