@@ -223,3 +223,92 @@ class YearlyData {
         return total;
     }
 }
+
+
+
+
+Map<String, Map<String, Integer>> mapOfMaps = new HashMap<>();
+
+// Assuming mapOfMaps is populated...
+
+mapOfMaps.entrySet().forEach(entry -> {
+    Map<String, Integer> sortedInnerMap = 
+        entry.getValue().entrySet().stream()
+            .sorted(Map.Entry.comparingByValue())
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, 
+                Map.Entry::getValue, 
+                (e1, e2) -> e1, 
+                LinkedHashMap::new));
+    mapOfMaps.put(entry.getKey(), sortedInnerMap);
+});
+
+Map<String, Integer> sortedInnerMap = 
+    entry.getValue().entrySet().stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .collect(Collectors.toMap(
+            Map.Entry::getKey, 
+            Map.Entry::getValue, 
+            (e1, e2) -> e1, 
+            LinkedHashMap::new));
+
+
+
+
+Map<String, Map<String, Integer>> mapOfMaps = new HashMap<>();
+
+// Assuming mapOfMaps is populated...
+
+mapOfMaps.entrySet().forEach(entry -> {
+    Map<String, Integer> sortedInnerMap = 
+        entry.getValue().entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, 
+                Map.Entry::getValue, 
+                (e1, e2) -> e1, 
+                LinkedHashMap::new));
+    mapOfMaps.put(entry.getKey(), sortedInnerMap);
+});
+
+
+Workbook workbook = new XSSFWorkbook();
+Sheet sheet = workbook.createSheet("Map Data");
+
+int rowCount = 0;
+
+for (Map.Entry<String, String> entry : map.entrySet()) {
+    Row row = sheet.createRow(++rowCount);
+
+    int columnCount = 0;
+    Cell cell = row.createCell(++columnCount);
+    cell.setCellValue(entry.getKey());
+
+    cell = row.createCell(++columnCount);
+    cell.setCellValue(entry.getValue());
+}
+
+public void writeMapToExcel(Map<String, String> map) {
+    Workbook workbook = new XSSFWorkbook();
+    Sheet sheet = workbook.createSheet("Map Data");
+
+    int rowCount = 0;
+
+    for (Map.Entry<String, String> entry : map.entrySet()) {
+        Row row = sheet.createRow(++rowCount);
+
+        int columnCount = 0;
+        Cell cell = row.createCell(++columnCount);
+        cell.setCellValue(entry.getKey());
+
+        cell = row.createCell(++columnCount);
+        cell.setCellValue(entry.getValue());
+    }
+
+    try (FileOutputStream outputStream = new FileOutputStream("MapData.xlsx")) {
+        workbook.write(outputStream);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
