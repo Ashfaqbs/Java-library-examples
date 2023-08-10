@@ -1,0 +1,225 @@
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+
+public class ExcelCreator {
+
+    public static void main(String[] args) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("PHTS Data");
+
+        // Create header row
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Portfolio Year");
+        headerRow.createCell(1).setCellValue("Portfolio");
+        headerRow.createCell(2).setCellValue("Total");
+        headerRow.createCell(3).setCellValue("Dental");
+        headerRow.createCell(4).setCellValue("Medical");
+        headerRow.createCell(5).setCellValue("Portfolio Year");
+        headerRow.createCell(6).setCellValue("Portfolio");
+        headerRow.createCell(7).setCellValue("Total");
+        headerRow.createCell(8).setCellValue("Dental");
+        headerRow.createCell(9).setCellValue("Medical");
+
+        // Add data rows
+        int rowCount = 1;
+
+        // Add default values
+        Row defaultDataRow = sheet.createRow(rowCount++);
+        defaultDataRow.createCell(0).setCellValue("Default");
+        defaultDataRow.createCell(1).setCellValue("Default");
+        defaultDataRow.createCell(2).setCellValue(0);   // Default Total
+        defaultDataRow.createCell(3).setCellValue(0);   // Default Dental
+        defaultDataRow.createCell(4).setCellValue(0);   // Default Medical
+
+        // Add data for 2017
+        Row dataRow2017 = sheet.createRow(rowCount++);
+        dataRow2017.createCell(5).setCellValue("2017");
+        dataRow2017.createCell(6).setCellValue("Default");
+        dataRow2017.createCell(7).setCellValue(14820);  // Total
+        dataRow2017.createCell(8).setCellValue(137);    // Dental
+        dataRow2017.createCell(9).setCellValue(14683);  // Medical
+
+        // Add data for 2018
+        Row dataRow2018 = sheet.createRow(rowCount++);
+        dataRow2018.createCell(5).setCellValue("2018");
+        dataRow2018.createCell(6).setCellValue("Default");
+        dataRow2018.createCell(7).setCellValue(14405);  // Total
+        dataRow2018.createCell(8).setCellValue(121);    // Dental
+        dataRow2018.createCell(9).setCellValue(14284);  // Medical
+
+        // Repeat for other years...
+
+        // Write the workbook to an Excel file
+        try (FileOutputStream outputStream = new FileOutputStream("output.xlsx")) {
+            workbook.write(outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+public class DataComparator {
+
+    public static void main(String[] args) {
+        YearlyData defaultData2017 = new YearlyData("2017", 137, 14683, 14820);
+        YearlyData defaultData2018 = new YearlyData("2018", 121, 14284, 14405);
+        
+        YearlyData extractedData2017 = new YearlyData("2017", 137, 14683, 14820); // Replace with your extracted data
+        YearlyData extractedData2018 = new YearlyData("2018", 120, 14285, 14405); // Replace with your extracted data
+        
+        compareAndPrintDifferences(defaultData2017, extractedData2017);
+        compareAndPrintDifferences(defaultData2018, extractedData2018);
+    }
+
+    private static void compareAndPrintDifferences(YearlyData defaultData, YearlyData extractedData) {
+        System.out.println("Comparing for year: " + defaultData.getPortfolioYear());
+
+        if (defaultData.getDental() != extractedData.getDental()) {
+            System.out.println("Dental values differ.");
+        }
+
+        if (defaultData.getMedical() != extractedData.getMedical()) {
+            System.out.println("Medical values differ.");
+        }
+
+        if (defaultData.getTotal() != extractedData.getTotal()) {
+            System.out.println("Total values differ.");
+        }
+
+        System.out.println(); // Empty line for separation
+    }
+}
+
+class YearlyData {
+    private String portfolioYear;
+    private int dental;
+    private int medical;
+    private int total;
+
+    public YearlyData(String portfolioYear, int dental, int medical, int total) {
+        this.portfolioYear = portfolioYear;
+        this.dental = dental;
+        this.medical = medical;
+        this.total = total;
+    }
+
+    public String getPortfolioYear() {
+        return portfolioYear;
+    }
+
+    public int getDental() {
+        return dental;
+    }
+
+    public int getMedical() {
+        return medical;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+}
+
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class DataComparator {
+
+    public static void main(String[] args) {
+        Map<String, YearlyData> defaultData = getDefaultData();
+        Map<String, YearlyData> extractedData = getExtractedData();
+
+        for (String year : defaultData.keySet()) {
+            YearlyData defaultYearlyData = defaultData.get(year);
+            YearlyData extractedYearlyData = extractedData.getOrDefault(year, new YearlyData(year, 0, 0, 0));
+
+            compareAndPrintDifferences(defaultYearlyData, extractedYearlyData);
+        }
+    }
+
+    private static void compareAndPrintDifferences(YearlyData defaultData, YearlyData extractedData) {
+        System.out.println("Comparing for year: " + defaultData.getPortfolioYear());
+
+        if (defaultData.getDental() != extractedData.getDental()) {
+            System.out.println("Dental values differ.");
+        }
+
+        if (defaultData.getMedical() != extractedData.getMedical()) {
+            System.out.println("Medical values differ.");
+        }
+
+        if (defaultData.getTotal() != extractedData.getTotal()) {
+            System.out.println("Total values differ.");
+        }
+
+        System.out.println(); // Empty line for separation
+    }
+
+    private static Map<String, YearlyData> getDefaultData() {
+        Map<String, YearlyData> defaultData = new HashMap<>();
+        
+        // Populate default data for each year
+        defaultData.put("2017", new YearlyData("2017", 137, 14683, 14820));
+        defaultData.put("2018", new YearlyData("2018", 121, 14284, 14405));
+        // ... Populate for other years
+        
+        return defaultData;
+    }
+
+    private static Map<String, YearlyData> getExtractedData() {
+        Map<String, YearlyData> extractedData = new HashMap<>();
+        
+        // Populate extracted data for each year
+        extractedData.put("2017", new YearlyData("2017", 137, 14683, 14820));
+        extractedData.put("2018", new YearlyData("2018", 120, 14285, 14405));
+        // ... Populate for other years
+        
+        return extractedData;
+    }
+}
+
+class YearlyData {
+    private String portfolioYear;
+    private int dental;
+    private int medical;
+    private int total;
+
+    public YearlyData(String portfolioYear, int dental, int medical, int total) {
+        this.portfolioYear = portfolioYear;
+        this.dental = dental;
+        this.medical = medical;
+        this.total = total;
+    }
+
+    public String getPortfolioYear() {
+        return portfolioYear;
+    }
+
+    public int getDental() {
+        return dental;
+    }
+
+    public int getMedical() {
+        return medical;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+}
