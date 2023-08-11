@@ -303,3 +303,79 @@ public void createCombinedExcel(Map<String, Map<String, Integer>> lastWeekYearTy
     }
 }
 
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .table-container {
+            display: flex;
+        }
+        
+        .table {
+            flex: 1;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Year</th>
+            <th>Total Dental (Last Week)</th>
+            <th>Total Medical (Last Week)</th>
+            <th>Total Dental (This Week)</th>
+            <th>Total Medical (This Week)</th>
+        </tr>
+        YOUR_TABLE_CONTENT_HERE
+    </table>
+</body>
+</html>
+
+private String generateTableContent(Map<String, Integer> lastWeekDentalCounts,
+                                    Map<String, Integer> lastWeekMedicalCounts,
+                                    Map<String, Integer> thisWeekDentalCounts,
+                                    Map<String, Integer> thisWeekMedicalCounts) {
+    StringBuilder tableContent = new StringBuilder();
+
+    for (String year : lastWeekDentalCounts.keySet()) {
+        int lastWeekDental = lastWeekDentalCounts.getOrDefault(year, 0);
+        int lastWeekMedical = lastWeekMedicalCounts.getOrDefault(year, 0);
+        int thisWeekDental = thisWeekDentalCounts.getOrDefault(year, 0);
+        int thisWeekMedical = thisWeekMedicalCounts.getOrDefault(year, 0);
+
+        tableContent.append("<tr>");
+        tableContent.append("<td>").append(year).append("</td>");
+        tableContent.append("<td>").append(lastWeekDental).append("</td>");
+        tableContent.append("<td>").append(lastWeekMedical).append("</td>");
+        tableContent.append("<td>").append(thisWeekDental).append("</td>");
+        tableContent.append("<td>").append(thisWeekMedical).append("</td>");
+        tableContent.append("</tr>");
+    }
+
+    return tableContent.toString();
+}
+
+
+String htmlTemplate = ...; // Load the HTML template from file or string
+String tableContent = generateTableContent(lastWeekDentalCounts, lastWeekMedicalCounts, thisWeekDentalCounts, thisWeekMedicalCounts);
+String finalHtml = htmlTemplate.replace("YOUR_TABLE_CONTENT_HERE", tableContent);
