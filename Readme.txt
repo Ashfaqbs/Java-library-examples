@@ -252,3 +252,54 @@ public void createCombinedExcel(Map<String, Map<String, Integer>> allYearTypeCou
 
 
 createCombinedExcel(allYearTypeCounts, allYearTotalCounts);
+
+
+
+
+
+
+
+
+
+public void createCombinedExcel(Map<String, Map<String, Integer>> lastWeekYearTypeCounts, 
+                                Map<String, Integer> lastWeekYearTotalCounts,
+                                Map<String, Map<String, Integer>> thisWeekYearTypeCounts,
+                                Map<String, Integer> thisWeekYearTotalCounts) {
+    String excelFilePath = "C:\\path\\to\\your\\output\\combined_counts.xlsx";
+
+    try (Workbook workbook = new XSSFWorkbook()) {
+        Sheet sheet = workbook.createSheet("CombinedCounts");
+
+        int rowNum = 0;
+        Row headerRow = sheet.createRow(rowNum++);
+        headerRow.createCell(0).setCellValue("Year");
+        headerRow.createCell(1).setCellValue("Total Dental (Last Week)");
+        headerRow.createCell(2).setCellValue("Total Medical (Last Week)");
+        headerRow.createCell(3).setCellValue("Total Dental (This Week)");
+        headerRow.createCell(4).setCellValue("Total Medical (This Week)");
+
+        for (String year : lastWeekYearTotalCounts.keySet()) {
+            int lastWeekDental = lastWeekYearTypeCounts.getOrDefault(year, new HashMap<>()).getOrDefault("Dental", 0);
+            int lastWeekMedical = lastWeekYearTypeCounts.getOrDefault(year, new HashMap<>()).getOrDefault("Medical", 0);
+            
+            int thisWeekDental = thisWeekYearTypeCounts.getOrDefault(year, new HashMap<>()).getOrDefault("Dental", 0);
+            int thisWeekMedical = thisWeekYearTypeCounts.getOrDefault(year, new HashMap<>()).getOrDefault("Medical", 0);
+
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(year);
+            row.createCell(1).setCellValue(lastWeekDental);
+            row.createCell(2).setCellValue(lastWeekMedical);
+            row.createCell(3).setCellValue(thisWeekDental);
+            row.createCell(4).setCellValue(thisWeekMedical);
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+            workbook.write(outputStream);
+        }
+
+        System.out.println("Combined Excel file created successfully.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
