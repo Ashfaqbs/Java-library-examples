@@ -312,3 +312,33 @@ public void writeMapToExcel(Map<String, String> map) {
     }
 }
 
+
+--test
+
+
+private Map<String, Integer> getDefaultCounts(int dentalCount, int medicalCount) {
+    Map<String, Integer> defaultCounts = new HashMap<>();
+    defaultCounts.put("Dental", dentalCount);
+    defaultCounts.put("Medical", medicalCount);
+    return defaultCounts;
+}
+
+
+private void setDefaultCounts(Map<String, Map<String, Integer>> yearTypeCounts, Map<String, Integer> yearTotalCounts) {
+    // Set hardcoded default values for specific years
+    yearTypeCounts.putIfAbsent("2017", getDefaultCounts(137, 14683));
+    yearTotalCounts.putIfAbsent("2017", 14820);
+    
+    yearTypeCounts.putIfAbsent("2018", getDefaultCounts(/* default values for 2018 */));
+    yearTotalCounts.putIfAbsent("2018", /* default total value for 2018 */);
+    
+    // ... Repeat for other years
+    
+    // You can continue this pattern for other years as well
+}
+private void processLine(String line, Map<String, Map<String, Integer>> yearTypeCounts, Map<String, Integer> yearTotalCounts) {
+    // ... (same code as before)
+    
+    // Step 6: Set hardcoded default values for each year
+    setDefaultCounts(yearTypeCounts, yearTotalCounts);
+}
