@@ -342,3 +342,143 @@ private void processLine(String line, Map<String, Map<String, Integer>> yearType
     // Step 6: Set hardcoded default values for each year
     setDefaultCounts(yearTypeCounts, yearTotalCounts);
 }
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading Animation before Page Load</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+
+
+  .loading-animation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    animation: fadeOut 2s forwards;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }
+
+  .spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+   .container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .file-upload {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .file-upload input[type="file"] {
+    display: none;
+  }
+
+  .file-upload label {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .file-upload label:hover {
+    background-color: #2980b9;
+  }
+
+  .submit-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .submit-btn:hover {
+    background-color: #219c52;
+  }
+</style>
+</head>
+<body>
+<div class="loading-animation">
+  <div class="spinner"></div>
+</div>
+
+<div class="container" id="pageContent" style="display: none;">
+  <h2 class="title">Upload Old and New Data Files</h2>
+   <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <input type="file" id="oldDataFile" name="oldDataFile" />
+            <label for="oldDataFile">Choose Old Data File</label>
+        </div>
+        <div class="file-upload">
+            <input type="file" id="newDataFile" name="newDataFile" />
+            <label for="newDataFile">Choose New Data File</label>
+        </div>
+        <button class="submit-btn" type="submit">Generate Report</button>
+        <div class="loader" id="loader"></div>
+    </form>
+</div>
+
+<script>
+  // Simulate animation delay
+  setTimeout(function() {
+    document.getElementById("pageContent").style.display = "block";
+  }, 2000); // 2 seconds (you can adjust this value)
+</script>
+</body>
+</html>
