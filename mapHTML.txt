@@ -1,0 +1,28 @@
+public String processThymeleafTemplate(Map<String, Map<String, Integer>> dataMaps) {
+    StringBuilder htmlContent = new StringBuilder();
+    
+    htmlContent.append("<table>");
+    
+    // Add table header
+    htmlContent.append("<tr>");
+    htmlContent.append("<th>Year</th>");
+    htmlContent.append("<th>This Week Dental</th>");
+    htmlContent.append("<th>This Week Medical</th>");
+    htmlContent.append("</tr>");
+    
+    // Add data rows
+    for (Map.Entry<String, Map<String, Integer>> yearEntry : dataMaps.entrySet()) {
+        String year = yearEntry.getKey();
+        Map<String, Integer> yearData = yearEntry.getValue();
+        
+        htmlContent.append("<tr>");
+        htmlContent.append("<td>").append(year).append("</td>");
+        htmlContent.append("<td>").append(yearData.getOrDefault("Dental", 0)).append("</td>");
+        htmlContent.append("<td>").append(yearData.getOrDefault("Medical", 0)).append("</td>");
+        htmlContent.append("</tr>");
+    }
+    
+    htmlContent.append("</table>");
+    
+    return htmlContent.toString();
+}
